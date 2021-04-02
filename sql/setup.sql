@@ -1,9 +1,7 @@
 DROP TABLE IF EXISTS uploads;
 
--- INT or INTEGER or SERIAL -> 32bit number
--- BIGINT or BIGINTEGER or BIGSERIAL -> 64bit number
 CREATE TABLE uploads (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  upload BIGINT CHECK (upload > 0)
+  file_name VARCHAR (512) NOT NULL
 );
 

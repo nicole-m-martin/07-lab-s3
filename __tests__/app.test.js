@@ -2,6 +2,9 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const Upload = require('../lib/models/Upload');
+const UploadService = require('../lib/services/UploadService');
+// const AWS = require('aws-sdk');
 
 // const s3Client = require('../lib/utils/aws');
 
@@ -11,9 +14,6 @@ const app = require('../lib/app');
 //   },
 // }));
 
-const uploadFile = (fileName) => {
-const fileContent = fs.readFileSync(fileName);
-
 describe('07-lab CRUD routes', () => {
   beforeEach(() => {
     return setup(pool);
@@ -21,20 +21,18 @@ describe('07-lab CRUD routes', () => {
 
   let upload;
   beforeEach(async () => {
-    upload = await Upload.insert({
-      fileName:
-      fileBody: 
-     });
+    upload = await Upload.insert({ fileName: 'textFile.txt' });
   });
+});
 
-  it('Uploads a file to the asw s3 bucket', () => {
-    return request(app)
-      .post('/api/v1/orders')
-      .send({ file })
-      
-      expect(res.body).toEqual({
-          id: '2',
-          quantity: 10,
-        });
-      });
+// POST TEST
+it('Uploads a file to the asw s3 bucket', async () => {
+  const res = await request(app)
+    .post('/api/v1/uploads')
+    .send({ fileName: 'moes.png' });
+
+  expect(res.body).toEqual({
+    id: '1',
+    filePath: 'https://nic-s3-bucket.s3-us-west-2.amazonaws.com/moes.png',
   });
+});
